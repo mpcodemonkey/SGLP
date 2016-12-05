@@ -1,5 +1,6 @@
 package SGLP.ExecutionManager;
 
+import SGLP.GameInfo;
 import SGLP.MutableProcessList;
 import SGLP.Process.ServerProcess;
 
@@ -32,18 +33,18 @@ public class ServerExecutionManager implements ExecutionManager{
     }
 
     @Override
-    public void launchProcess(String command, String name){
+    public void launchProcess(String command, GameInfo game){
 
         /**
          * if we've already launched an instance of the server for
          * a given game, there's no need to launch another, so we
          * exit immediately.
          */
-        if(processMap.getEntry(name) != null) return;
+        if(processMap.getEntry(game.getName()) != null) return;
         String port = currentPort+"";
         currentPort++;
-        processMap.addEntry(name, port);
-        ServerProcess sp = new ServerProcess(processMap, command, name);
+        processMap.addEntry(game.getName(), port);
+        ServerProcess sp = new ServerProcess(processMap, command, game);
         Thread st = new Thread(sp);
         st.start();
     }

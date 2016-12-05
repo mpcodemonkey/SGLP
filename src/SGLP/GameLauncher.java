@@ -10,9 +10,11 @@ import SGLP.UI.ClientUIBuilder;
 import SGLP.UI.ServerUIBuilder;
 import com.google.gson.Gson;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,7 +29,10 @@ import java.util.HashMap;
  */
 public class GameLauncher {
 
-    boolean isClient = false;
+    private static String PATH = Paths.get(".", "resources").toString();
+    private static String GAMEPATH = Paths.get(PATH + File.separator + "Games").toString();
+
+    boolean isClient = true;
     ServerExecutionManager sem;
     ClientExecutionManager clem;
     ExecutionCommand ec;
@@ -41,19 +46,26 @@ public class GameLauncher {
          * todo: rewrite games to not require dialog
          */
 
-        String path = File.separator + "Games";
         String name = "GameInfo.json";
         Gson infoAsJson = new Gson();
         ArrayList<GameInfo> AvailableGames = new ArrayList<>();
 
-        File[] folders = new File(path).listFiles();
+        File[] folders = new File(GAMEPATH).listFiles();
+
+        //no games, no reason to run
+        if(folders == null || folders.length == 0){
+            JOptionPane.showMessageDialog(null, "No games found. All games should be put in the resources\\Games folder");
+            return;
+        }
+
+        Environment sageEnvironments = new Environment(PATH);
 
         for(File folder: folders){
             if(folder.isDirectory()){//todo: change try/catch to check if null
                 try
                 {
-                    GameInfo newGame = infoAsJson.fromJson(new FileReader(path + File.separator + folder.getName() + File.separator + name), GameInfo.class);
-                    newGame.setFolder(folder.getName());
+                    GameInfo newGame = infoAsJson.fromJson(new FileReader(GAMEPATH + File.separator + folder.getName() + File.separator + name), GameInfo.class);
+                    newGame.setFolder(GAMEPATH + File.separator + folder.getName());
                     AvailableGames.add(newGame);
                 }
                 catch(FileNotFoundException f){
@@ -71,13 +83,13 @@ public class GameLauncher {
             csc = new CheckServerCommand(this);
             clem = new ClientExecutionManager();
             clem.setServerAddress(serverAddress);
-            ec = new ExecutionCommand(clem);
+            ec = new ExecutionCommand(clem, sageEnvironments);
             uiBuilder = new ClientUIBuilder(gameMapping, AvailableGames, ec, csc);
         }
         else{
             //todo: build server ui, add launch button for launching games, receive info from client for game request.
             sem = new ServerExecutionManager(new MutableProcessList());
-            ec = new ExecutionCommand(sem);
+            ec = new ExecutionCommand(sem, sageEnvironments);
             serverThread = new Server(sem.getProcessList());
             ServerUIBuilder serveruiBuilder = new ServerUIBuilder(gameMapping, AvailableGames, ec);
             Thread t = new Thread(serverThread);

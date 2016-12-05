@@ -1,8 +1,11 @@
 package SGLP.Process;
 
+import SGLP.GameInfo;
 import SGLP.MutableProcessList;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by ubufu on 11/3/2016.
@@ -22,32 +25,46 @@ public class ServerProcess implements Runnable {
 
     private MutableProcessList processMap;
     private String command;
-    private String name;
+    private GameInfo game;
 
-    public ServerProcess(MutableProcessList l, String c, String n){
+    public ServerProcess(MutableProcessList l, String c, GameInfo g){
         processMap = l;
         command = c;
-        name = n;
+        game = g;
     }
 
     @Override
     public void run() {
+        ProcessBuilder pb;
+        //append commands for server launch
+        command += " " + "s" + " " + processMap.getEntry(game.getName());
+        pb = new ProcessBuilder(command.split(" "));
+        pb.directory(new File(game.getFolder()));
+
+        /**
+         * the next few lines set up redirects for all input/output
+         * from the child process to this thread. This allows for any
+         * games that require command line interaction to still work
+         * when launched from another process
+         */
+        pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+        pb.redirectInput(ProcessBuilder.Redirect.INHERIT);
         Process sp = null;
         try {
-            sp = Runtime.getRuntime().exec(command);
-            try {
+                sp = pb.start();
                 sp.waitFor();
-            } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
                 e.printStackTrace();
-            }
         }
         catch(IOException e){
             e.printStackTrace();
         }
 
         //remove entry from process map when server dies
-        processMap.removeEntry(name);
-        System.out.println(name + " has been removed from the active process list");
+        processMap.removeEntry(game.getName());
+        System.out.println(game.getName() + " has been removed from the active process list");
 
     }
 }

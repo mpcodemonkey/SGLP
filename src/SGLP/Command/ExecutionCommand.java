@@ -1,11 +1,14 @@
 package SGLP.Command;
 
+import SGLP.Environment;
 import SGLP.ExecutionManager.ExecutionManager;
 import SGLP.ExecutionManager.ServerExecutionManager;
 import SGLP.GameInfo;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by ubufu on 11/15/2016.
@@ -17,10 +20,12 @@ import java.awt.event.ActionListener;
 public class ExecutionCommand implements ActionListener {
 
     private ExecutionManager em = null;
+    private Environment environment = null;
     private GameInfo activeGame;
 
-    public ExecutionCommand(ExecutionManager em){
+    public ExecutionCommand(ExecutionManager em, Environment environment){
         this.em = em;
+        this.environment = environment;
     }
 
     public void setActiveGame(GameInfo activeNameInfo){
@@ -30,7 +35,8 @@ public class ExecutionCommand implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        em.launchProcess(/*activeGame.getCommand()*/"cmd /c \"Games\\" + activeGame.getFolder() + " && " + activeGame.getCommand(), activeGame.getName());
+        String mCommand = "cmd /c " + environment.getPath(activeGame.getSemester()) + " " + activeGame.getExecutable();
+        em.launchProcess(/*activeGame.getCommand()*/ mCommand, activeGame);
 
     }
 }

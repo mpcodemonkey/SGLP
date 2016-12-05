@@ -5,12 +5,13 @@ package SGLP;
  */
 public class GameInfo {
     private String name;
+    private String semester;
     private String folder;
     private String description;
     private String controls;
     private IPInformation IPInfo;
     private String ImageLocation;
-    private String command;
+    private String executable;
 
     public String getName() {
         return name;
@@ -18,6 +19,14 @@ public class GameInfo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSemester() {
+        return semester;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
     }
 
     public String getFolder() {
@@ -60,8 +69,8 @@ public class GameInfo {
         ImageLocation = imageLocation;
     }
 
-    public String getCommand() { return command; }
+    public String getExecutable() { return executable; }
 
-    public void setCommand(String command) { this.command = command; }
+    public void setExecutable(String executable) { this.executable = executable; }
 
 }
