@@ -32,7 +32,6 @@ public class GameLauncher {
     private static String PATH = Paths.get(".", "resources").toString();
     private static String GAMEPATH = Paths.get(PATH + File.separator + "Games").toString();
 
-    boolean isClient = true;
     ServerExecutionManager sem;
     ClientExecutionManager clem;
     ExecutionCommand ec;
@@ -41,7 +40,7 @@ public class GameLauncher {
     ClientUIBuilder uiBuilder;
     String serverAddress = "127.0.0.1"; //todo: read server address from file
     Server serverThread;
-    public void start(){
+    public void start(boolean isClient){
         /**
          * todo: rewrite games to not require dialog
          */

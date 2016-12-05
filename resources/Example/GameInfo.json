@@ -1,0 +1,12 @@
+{
+  "name": "GameName",
+  "semester": "Semester course was taken (S/F) followed by year (YY), ex: S16",
+  "description": "Game Description",
+  "controls": "list of controls. Not yet formatted or used",
+  "IPInfo": {
+    "ServerAddress": "assigned during runtime, should be left as empty string",
+    "ServerPort": "assigned during runtime, should be left as empty string"
+  },
+  "ImageLocation": "relative path to image. Currently not used",
+  "executable": "file to execute. If class file, enter <package.className>. If jar file, enter <-jar file.jar"
+}
