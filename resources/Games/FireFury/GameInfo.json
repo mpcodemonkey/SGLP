@@ -1,0 +1,38 @@
+{
+  "name": "Fire Fury",
+  "semester": "S16",
+  "description": "A dangerous game of capture the flag! Can you find the flag and bring it to your base without dying to the dragon's fireballs or the perilous lava?",
+  "controls": {
+	"Keyboard": {
+		"W": "Move Character/Vehicle Forward",
+		"A": "Move Character/Vehicle Left",
+		"S": "Move Character/Vehicle Backward",
+		"D": "Move Character/Vehicle Right",
+		"E": "Enter/Exit Vehicle",
+		"Space": "Jump",
+		"Left/Right": "Orbit Around Character",
+		"Up/Down": "Move Camera Up/Down",
+		"X/C": "Change Camera Distance",
+		"Z": "Toggle Camera Snap"
+	},
+	"Gamepad": {
+		"Left Stick Forward": "Move Character/Vehicle Forward",
+		"Left Stick Left": "Move Character/Vehicle Left",
+		"Left Stick Backward": "Move Character/Vehicle Backward",
+		"Left Stick Right": "Move Character/Vehicle Right",
+		"X": "Enter/Exit Vehicle",
+		"A": "Jump",
+		"Right Stick Left/Right": "Orbit Around Character",
+		"Right Stick Up/Down": "Move Camera Up/Down",
+		"Left Trigger/Right Trigger": "Change Camera Distance",
+		"Left Bumper": "Toggle Camera Snap"
+	}
+  },
+  "IPInfo": {
+    "ServerAddress": "also something",
+    "ServerPort": ""
+  },
+  "ImageLocation": "game.png",
+  "clientExecutable": "a3.Starter",
+  "serverExecutable": "game/theGame/GameServer"
+}

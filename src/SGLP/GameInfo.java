@@ -1,5 +1,8 @@
 package SGLP;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Created by ubufu on 11/1/2016.
  */
@@ -8,10 +11,12 @@ public class GameInfo {
     private String semester;
     private String folder;
     private String description;
-    private String controls;
+    private HashMap<String, HashMap<String, String>> controls;
     private IPInformation IPInfo;
     private String ImageLocation;
-    private String executable;
+    private String clientExecutable;
+
+    private String serverExecutable;
 
     public String getName() {
         return name;
@@ -45,11 +50,11 @@ public class GameInfo {
         this.description = description;
     }
 
-    public String getControls() {
+    public HashMap<String, HashMap<String, String>> getControls() {
         return controls;
     }
 
-    public void setControls(String controls) {
+    public void setControls(HashMap<String, HashMap<String, String>> controls) {
         this.controls = controls;
     }
 
@@ -69,8 +74,19 @@ public class GameInfo {
         ImageLocation = imageLocation;
     }
 
-    public String getExecutable() { return executable; }
+    public String getClientExecutable() {
+        return clientExecutable;
+    }
 
-    public void setExecutable(String executable) { this.executable = executable; }
+    public void setClientExecutable(String clientExecutable) {
+        this.clientExecutable = clientExecutable;
+    }
 
+    public String getServerExecutable() {
+        return serverExecutable;
+    }
+
+    public void setServerExecutable(String serverExecutable) {
+        this.serverExecutable = serverExecutable;
+    }
 }

@@ -4,6 +4,9 @@ import SGLP.GameInfo;
 import SGLP.MutableProcessList;
 import SGLP.Process.ServerProcess;
 
+import java.util.HashMap;
+import org.jvnet.winp.*;
+
 /**
  * Created by ubufu on 11/3/2016.
  *
@@ -13,11 +16,12 @@ import SGLP.Process.ServerProcess;
  * currently running.
  *
  * This class and the ServerProcess class are based off of the Java Process
- * Compiler/Launcher developed by Catherine Kramer.
+ * Compiler/Launcher developed by Catherine Kramer. Thanks Cat :)
  */
 public class ServerExecutionManager implements ExecutionManager{
 
     private MutableProcessList processMap;
+    private HashMap<String, Process> killMap;
     private int currentPort;
 
 
@@ -25,6 +29,7 @@ public class ServerExecutionManager implements ExecutionManager{
 
         processMap = processList;
         currentPort = 9001;
+        killMap = new HashMap<>();
 
     }
 
@@ -44,9 +49,22 @@ public class ServerExecutionManager implements ExecutionManager{
         String port = currentPort+"";
         currentPort++;
         processMap.addEntry(game.getName(), port);
-        ServerProcess sp = new ServerProcess(processMap, command, game);
+        ServerProcess sp = new ServerProcess(processMap, command, game, killMap);
         Thread st = new Thread(sp);
+        st.setDaemon(true);
         st.start();
+    }
+    public void destroyProcess(String killTarget){
+        Process p = killMap.get(killTarget);
+        if(p != null){
+            WinProcess winProcess = new WinProcess(p);
+            winProcess.killRecursively();
+            killMap.remove(killTarget);
+            //p.destroyForcibly();
+        }
+        else{
+            System.out.println("no server running for " + killTarget);
+        }
     }
 
 }

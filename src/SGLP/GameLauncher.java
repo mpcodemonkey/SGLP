@@ -2,6 +2,7 @@ package SGLP;
 
 import SGLP.Command.CheckServerCommand;
 import SGLP.Command.ExecutionCommand;
+import SGLP.Command.KillCommand;
 import SGLP.ExecutionManager.ClientExecutionManager;
 import SGLP.ExecutionManager.ServerExecutionManager;
 import SGLP.Network.Client;
@@ -9,14 +10,21 @@ import SGLP.Network.Server;
 import SGLP.UI.ClientUIBuilder;
 import SGLP.UI.ServerUIBuilder;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.net.URISyntaxException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 
 /**
@@ -35,19 +43,19 @@ public class GameLauncher {
     ServerExecutionManager sem;
     ClientExecutionManager clem;
     ExecutionCommand ec;
+    KillCommand kc;
     CheckServerCommand csc;
     HashMap<String, GameInfo> gameMapping;
+    HashMap<String, BufferedImage> gameImageMap;
     ClientUIBuilder uiBuilder;
-    String serverAddress = "127.0.0.1"; //todo: read server address from file
+    String serverAddress = "127.0.0.1";
     Server serverThread;
     public void start(boolean isClient){
-        /**
-         * todo: rewrite games to not require dialog
-         */
 
         String name = "GameInfo.json";
         Gson infoAsJson = new Gson();
         ArrayList<GameInfo> AvailableGames = new ArrayList<>();
+        gameImageMap = new HashMap<>();
 
         File[] folders = new File(GAMEPATH).listFiles();
 
@@ -59,13 +67,22 @@ public class GameLauncher {
 
         Environment sageEnvironments = new Environment(PATH);
 
+        HashMap<String, String> servers = null;
+        try {
+            servers = infoAsJson.fromJson(new FileReader(PATH + File.separator + "Servers.json"), new TypeToken<HashMap<String, String>>(){}.getType());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         for(File folder: folders){
-            if(folder.isDirectory()){//todo: change try/catch to check if null
+            if(folder.isDirectory()){
                 try
                 {
                     GameInfo newGame = infoAsJson.fromJson(new FileReader(GAMEPATH + File.separator + folder.getName() + File.separator + name), GameInfo.class);
                     newGame.setFolder(GAMEPATH + File.separator + folder.getName());
+                    newGame.getIPInfo().setServerAddress(servers.get(newGame.getName()));
                     AvailableGames.add(newGame);
+                    System.out.println("added " + newGame.getName());
                 }
                 catch(FileNotFoundException f){
                     System.out.println("No info found. the game in " + folder.getName() + " will be skipped");
@@ -77,20 +94,26 @@ public class GameLauncher {
         gameMapping = createNameMap(AvailableGames);
 
         if(isClient){
-            //todo: build client ui, add refresh button for checking game availability, unblock play button if game found
-            //serverAddress = readServerAddrFromFile();
+            for(GameInfo g : gameMapping.values()){
+                BufferedImage image = null;
+                try {
+                    image = ImageIO.read(new File(g.getFolder() + File.separator + g.getImageLocation()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                gameImageMap.put(g.getName(), image);
+            }
             csc = new CheckServerCommand(this);
             clem = new ClientExecutionManager();
-            clem.setServerAddress(serverAddress);
-            ec = new ExecutionCommand(clem, sageEnvironments);
-            uiBuilder = new ClientUIBuilder(gameMapping, AvailableGames, ec, csc);
+            ec = new ExecutionCommand(clem, sageEnvironments, "client");
+            uiBuilder = new ClientUIBuilder(gameMapping, AvailableGames, ec, csc, gameImageMap);
         }
         else{
-            //todo: build server ui, add launch button for launching games, receive info from client for game request.
             sem = new ServerExecutionManager(new MutableProcessList());
-            ec = new ExecutionCommand(sem, sageEnvironments);
+            ec = new ExecutionCommand(sem, sageEnvironments, "server");
+            kc = new KillCommand(sem);
             serverThread = new Server(sem.getProcessList());
-            ServerUIBuilder serveruiBuilder = new ServerUIBuilder(gameMapping, AvailableGames, ec);
+            ServerUIBuilder serveruiBuilder = new ServerUIBuilder(gameMapping, AvailableGames, ec, kc);
             Thread t = new Thread(serverThread);
             t.run();
         }
@@ -108,7 +131,7 @@ public class GameLauncher {
 
     public void checkGameServer(GameInfo activeGame) {
         Client c = new Client();
-        int activePort = c.fireRequest(activeGame.getName(), serverAddress);
+        int activePort = c.fireRequest(activeGame.getName(), activeGame.getIPInfo().getServerAddress());
 
         //could not find a game
         if(activePort < 0){
@@ -117,7 +140,9 @@ public class GameLauncher {
             uiBuilder.displayGameNotFound();
         }
         else{
+            System.out.println("client received port " + activePort + " as server port");
             activeGame.getIPInfo().setServerPort(activePort+"");
+            //activeGame.getIPInfo().setServerAddress(serverAddress+"");
             uiBuilder.checkActivePlayButton();
         }
     }

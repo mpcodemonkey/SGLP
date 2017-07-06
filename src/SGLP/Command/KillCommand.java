@@ -17,17 +17,13 @@ import java.util.ArrayList;
  * client or server. It launches the game located in the Games\[game name] folder
  * if it is not already running
  */
-public class ExecutionCommand implements ActionListener {
+public class KillCommand implements ActionListener {
 
-    private ExecutionManager em = null;
-    private Environment environment = null;
+    private ServerExecutionManager sem = null;
     private GameInfo activeGame;
-    private String runType = null;
 
-    public ExecutionCommand(ExecutionManager em, Environment environment, String runType){
-        this.em = em;
-        this.environment = environment;
-        this.runType = runType;
+    public KillCommand(ServerExecutionManager sem){
+        this.sem = sem;
     }
 
     public void setActiveGame(GameInfo activeNameInfo){
@@ -36,9 +32,6 @@ public class ExecutionCommand implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        String mCommand = "cmd /c " + environment.getPath(activeGame.getSemester()) + " " + (runType.equalsIgnoreCase("client") ? activeGame.getClientExecutable() : activeGame.getServerExecutable());
-        em.launchProcess(mCommand, activeGame);
-
+        sem.destroyProcess(activeGame.getName());
     }
 }

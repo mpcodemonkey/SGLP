@@ -1,6 +1,7 @@
 package SGLP.UI;
 
 import SGLP.Command.ExecutionCommand;
+import SGLP.Command.KillCommand;
 import SGLP.GameInfo;
 import SGLP.MutableProcessList;
 
@@ -21,12 +22,14 @@ public class ServerUIBuilder extends JFrame implements ListSelectionListener {
     private MutableProcessList processMap;
     private JList gameList;
     private ExecutionCommand ec = null;
+    private KillCommand kc = null;
     private ArrayList<GameInfo> gameInfo;
 
-    public ServerUIBuilder(HashMap<String, GameInfo> gameMap, ArrayList<GameInfo> gameInfo, ExecutionCommand ec){
+    public ServerUIBuilder(HashMap<String, GameInfo> gameMap, ArrayList<GameInfo> gameInfo, ExecutionCommand ec, KillCommand kc){
         this.gameMap = gameMap;
         this.gameInfo = gameInfo;
         this.ec = ec;
+        this.kc = kc;
         build();
     }
 
@@ -71,6 +74,10 @@ public class ServerUIBuilder extends JFrame implements ListSelectionListener {
         launchProcess.addActionListener(ec);
         southPanel.add(launchProcess);
 
+        JButton killProcess = new JButton("Kill Server");
+        killProcess.addActionListener(kc);
+        southPanel.add(killProcess);
+
         //build frame
         gamePanel.add(westPanel, BorderLayout.WEST);
         gamePanel.add(southPanel, BorderLayout.SOUTH);
@@ -84,6 +91,7 @@ public class ServerUIBuilder extends JFrame implements ListSelectionListener {
     @Override
     public void valueChanged(ListSelectionEvent e) {
         ec.setActiveGame(gameMap.get(gameList.getSelectedValue()));
+        kc.setActiveGame(gameMap.get(gameList.getSelectedValue()));
     }
 
 }

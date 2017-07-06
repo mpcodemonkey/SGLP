@@ -12,7 +12,7 @@ import java.net.*;
  */
 public class Client{
     public int fireRequest(String processName, String serverAddr) {
-        String hostName = "127.0.0.1";
+        //String hostName = "127.0.0.1";
         DatagramSocket clientSock = null;
         int gamePort = -1;
         byte[] receiveData = new byte[12];
@@ -39,7 +39,7 @@ public class Client{
 
         try {
 
-            byte[] buffer = new byte[12];
+            byte[] buffer = new byte[18];
             DatagramPacket request = new DatagramPacket(processName.getBytes(), processName.length(), serverIP, 8888 );
             clientSock.send(request);
 
@@ -55,6 +55,7 @@ public class Client{
         catch (SocketTimeoutException ste)
         {
             System.out.println ("Timeout Occurred: Packet assumed lost");
+            clientSock.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

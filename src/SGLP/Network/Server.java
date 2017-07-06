@@ -42,10 +42,10 @@ public class Server implements Runnable{
             try{
 
                 System.out.println("serving up a port");
-                byte[] buffer = new byte[12];
+                byte[] buffer = new byte[18];
                 request = new DatagramPacket(buffer, buffer.length);
                 socket.receive(request);
-
+                System.out.println("receiving message from client");
                 data = new String(request.getData()).trim();
 
                 String response = processList.getEntry(data) == null ? "" : processList.getEntry(data);

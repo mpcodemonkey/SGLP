@@ -11,12 +11,13 @@ import java.io.IOException;
 public class ClientExecutionManager implements ExecutionManager{
     private String serverAddress;
 
+    /*
     public void setServerAddress(String address){
         serverAddress = address;
-    }
+    }*/
 
     @Override
-    public void launchProcess(String command, GameInfo g) {
+    public void launchProcess(String command, GameInfo g ) {
         /**
          * since the client should only be able to play one game at a time,
          * instead of spawning a new non-blocking thread to run the game( how
@@ -25,7 +26,7 @@ public class ClientExecutionManager implements ExecutionManager{
          */
         ProcessBuilder pb;
         //append switches for client run
-        command += " " + "c" + " " + g.getIPInfo().getServerPort();
+        command += " " + "client" + " " + g.getIPInfo().getServerAddress() + " " + g.getIPInfo().getServerPort();
         pb = new ProcessBuilder(command.split(" "));
         pb.directory(new File(g.getFolder()));
 
@@ -49,6 +50,10 @@ public class ClientExecutionManager implements ExecutionManager{
         catch(IOException e){
             e.printStackTrace();
         }
+
+        //edge case: join game button is pressed when server is down but connection was active
+        //g.getIPInfo().setServerPort("");
+
 
     }
 }

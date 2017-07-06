@@ -6,6 +6,7 @@ import SGLP.MutableProcessList;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by ubufu on 11/3/2016.
@@ -26,22 +27,24 @@ public class ServerProcess implements Runnable {
     private MutableProcessList processMap;
     private String command;
     private GameInfo game;
+    private HashMap<String, Process> killMap;
 
-    public ServerProcess(MutableProcessList l, String c, GameInfo g){
+    public ServerProcess(MutableProcessList l, String c, GameInfo g, HashMap<String, Process> k){
         processMap = l;
         command = c;
         game = g;
+        killMap = k;
     }
 
     @Override
     public void run() {
         ProcessBuilder pb;
         //append commands for server launch
-        command += " " + "s" + " " + processMap.getEntry(game.getName());
+        command += " " + "server" + " " + processMap.getEntry(game.getName());
         pb = new ProcessBuilder(command.split(" "));
         pb.directory(new File(game.getFolder()));
 
-        /**
+        /*
          * the next few lines set up redirects for all input/output
          * from the child process to this thread. This allows for any
          * games that require command line interaction to still work
@@ -53,6 +56,7 @@ public class ServerProcess implements Runnable {
         Process sp = null;
         try {
                 sp = pb.start();
+                killMap.put(game.getName(), sp);
                 sp.waitFor();
         }
         catch (InterruptedException e) {
