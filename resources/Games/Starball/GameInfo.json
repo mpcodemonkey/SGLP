@@ -1,0 +1,29 @@
+{
+  "name": "Starball",
+  "semester": "Starball",
+  "description": "Rocket League in spaaaaaaace! Use you ship and its lasers to maneuver the ball into your opponent's goal as fast as you can. The first team to hit five points wins",
+  "controls": {
+	"Keyboard": {
+		"A": "Strafe left",
+        "S": "Slide backwards",
+        "D": "Strafe right",
+        "W": "Slide forward",
+        "Q": "Roll left",
+        "E": "Roll right",
+        "Shift": "Hover down",
+        "Spacebar": "Hover up",
+        "Mouse": "Look around",
+        "Left mouse click": "Fire bullets"
+	},
+	"Gamepad": {
+		"N/A": "N/A"
+	}
+  },
+  "IPInfo": {
+    "ServerAddress": "also something",
+    "ServerPort": ""
+  },
+  "ImageLocation": "game.png",
+  "clientExecutable": "starball.Starball",
+  "serverExecutable": "starball.Starball"
+}

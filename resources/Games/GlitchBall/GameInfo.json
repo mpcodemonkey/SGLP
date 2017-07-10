@@ -1,0 +1,36 @@
+{
+  "name": "Glitchball",
+  "semester": "S16",
+  "description": "How are your dodgeball skills? Test your dexterity in this multiplayer game of dodgeball! Play with friends, or spawn an NPC (or 2,000 of them) and try to beat them! Be careful to not touch the dodgeball when it's red, or you might lose a life :(",
+  "controls": {
+	"Keyboard": {
+		"W": "Move your avatar forward",
+		"A": "Move your avatar left",
+		"S": "Move your avatar backwards",
+		"D": "Move your avatar right",
+		"spacebar": "Move upwards",
+		"E": "Spawn a dodgeball",
+		"R": "Spawn an NPC",
+		"Q": "Throw a dodgeball",
+		"~": "Open console",
+		"Enter": "Submits whatever is written in console",
+		"P": "Remove Arena, press again to return the Arena",
+		"L": "Increase the speed of NPCS",
+		"O": "Restart the game, score, and NPC speed.",
+		"left mouse click": "throw a held dodgeball."
+	},
+	"Gamepad": {
+		"D-pad": "up/down/left/right",
+		"L/R Trigger": "Rotate camera left and right",
+		"L/R Shoulder": "Rotate camera up and down",
+		"Select/Start": "Zoom camera in and out"
+	}
+  },
+  "IPInfo": {
+    "ServerAddress": "also something",
+    "ServerPort": ""
+  },
+  "ImageLocation": "game.png",
+  "clientExecutable": "games.glitchball.FinalGame",
+  "serverExecutable": "a3.Starter"
+}

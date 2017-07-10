@@ -1,0 +1,29 @@
+{
+  "name": "TRON",
+  "semester": "S14",
+  "description": "An Exciting Light Cycle Run",
+  "controls": {
+	"Keyboard": {
+		"W": "Forward",
+		"A": "Left",
+		"S": "Backward",
+		"D": "Right",
+		"X": "Jump",
+		"Q": "Rotate Left",
+		"E": "Rotate Right",
+		"Z": "Zoom In",
+		"C": "Zoom Out",
+		"Esc": "Quit"
+	},
+	"Gamepad": {
+		"N/A": "N/A"
+	}
+  },
+  "IPInfo": {
+    "ServerAddress": "",
+    "ServerPort": ""
+  },
+  "ImageLocation": "game.png",
+  "clientExecutable": "-jar 165A3.jar",
+  "serverExecutable": "-jar 165A3.jar"
+}

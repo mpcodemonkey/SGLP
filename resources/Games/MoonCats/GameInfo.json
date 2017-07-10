@@ -1,0 +1,31 @@
+{
+  "name": "Moon Cats",
+  "semester": "S16",
+  "description": "Bob and weave away from your opponent’s ball and land your ball in his face! In this dodgeball game, only one player will end up as the cat's meow",
+  "controls": {
+	"Keyboard": {
+		"W,A,S,D": "Move/Strafe",
+        "Up/Down": "Zoom in/out",
+        "Left/Right": "Change character skin",
+        "Esc": "Quit game",
+        "Enter": "Play again",
+        "Left click": "Throw held ball",
+        "Right click": "Swivel camera view"
+	},
+	"Gamepad": {
+      "Left stick": "Move/Strafe",
+      "D-pad Left/Right": "Change character skin",
+      "Select": "Quit game",
+      "X": "Play again",
+      "R1": "Throw held ball",
+      "Right stick": "Swivel camera view"
+	}
+  },
+  "IPInfo": {
+    "ServerAddress": "also something",
+    "ServerPort": ""
+  },
+  "ImageLocation": "game.png",
+  "clientExecutable": "-Xmx1024M a1.Starter",
+  "serverExecutable": "-Xmx1024M a1.Starter"
+}

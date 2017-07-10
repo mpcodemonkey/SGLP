@@ -1,0 +1,21 @@
+{
+  "name": "Mole Seeker",
+  "semester": "S16",
+  "description": "Moles? Hammers? Enough said. Time your hits to whack as many moles as you can while avoiding the bombs",
+  "controls": {
+	"Keyboard": {
+		"W,A,S,D": "Move hammer",
+        "Space": "Use hammer"
+	},
+	"Gamepad": {
+		"N/A": "N/A"
+	}
+  },
+  "IPInfo": {
+    "ServerAddress": "also something",
+    "ServerPort": ""
+  },
+  "ImageLocation": "game.png",
+  "clientExecutable": "a3.MoleSeeker",
+  "serverExecutable": "server.GameServerTCP"
+}

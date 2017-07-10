@@ -1,0 +1,27 @@
+{
+  "name": "Trench Run",
+  "semester": "S15",
+  "description": "Pilot your ship through the narrow trench while avoiding obstacles, turrets, and turret attacks. Failing to do so will crash your ship. when the trench ends, the player with the lowest crash count wins",
+  "controls": {
+	"Keyboard": {
+      "W,A,S,D": "Move Up, Down, Left, and Right on the game grid",
+      "L": "Fires a laser from the player’s ship",
+      "Spacebar": "Select ship/respawn",
+      "Tab": "Toggle scoreboard",
+      "Esc": "Quit"
+	},
+	"Gamepad": {
+      "Up, Down, Left, and Right on the DPad": "Move Up, Down, Left, and Right on the game grid",
+      "Right Trigger": "Fires a laser from the player’s ship",
+      "Start button": "Select ship/respawn",
+      "Select button": "Toggle scoreboard"
+	}
+  },
+  "IPInfo": {
+    "ServerAddress": "also something",
+    "ServerPort": ""
+  },
+  "ImageLocation": "game.png",
+  "clientExecutable": "a3.Starter",
+  "serverExecutable": "server.ServerStarter"
+}

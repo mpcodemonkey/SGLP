@@ -1,0 +1,23 @@
+{
+  "name": "Haunted Mansion",
+  "semester": "S16",
+  "description": "Who can claim the title of biggest ghost on the block? Pick up orbs and eat smaller ghosts to become the biggest. Watch out for the spiky ghost and players larger than you, or you'll shrink in size. After three minutes, the largest ghost is crowned the winner. Will it be you?",
+  "controls": {
+	"Keyboard": {
+		"W": "Move Up",
+		"A": "Move Left",
+		"S": "Move Down",
+		"D": "Move Right"
+	},
+	"Gamepad": {
+		"N/A": "N/A"
+	}
+  },
+  "IPInfo": {
+    "ServerAddress": "also something",
+    "ServerPort": ""
+  },
+  "ImageLocation": "game.png",
+  "clientExecutable": "gameSource.Starter",
+  "serverExecutable": "gameSource.Starter"
+}
